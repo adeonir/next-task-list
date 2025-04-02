@@ -49,7 +49,7 @@
       "semicolons": "asNeeded",
       "arrowParentheses": "always",
       "bracketSpacing": true,
-      "quoteStyle": "single",
+      "quoteStyle": "double",
       "jsxQuoteStyle": "double"
     }
   },
