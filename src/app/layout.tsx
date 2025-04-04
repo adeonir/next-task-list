@@ -4,6 +4,8 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { ReactNode } from "react"
 
+import { Toaster } from "@/components/ui/sonner"
+
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
@@ -20,6 +22,7 @@ export default function RootLayout({
     <html className={`${inter.className} antialiased`} lang="pt-BR">
       <body className="flex min-h-screen bg-gray-200">
         <div className="m-4 flex flex-1 flex-col rounded-lg bg-white shadow-lg">{children}</div>
+        <Toaster />
       </body>
     </html>
   )
