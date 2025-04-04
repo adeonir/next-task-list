@@ -24,7 +24,11 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
             <TableRow className="border-b-gray-300 bg-gray-50" key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead className="first-of-type:rounded-tl-md last-of-type:rounded-tr-md" key={header.id}>
+                  <TableHead
+                    className="first-of-type:rounded-tl-md last-of-type:rounded-tr-md"
+                    key={header.id}
+                    style={{ width: header.getSize() === 150 ? "auto" : header.getSize() }}
+                  >
                     {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 )
