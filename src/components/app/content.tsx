@@ -1,9 +1,13 @@
-import { ReactNode } from "react"
+import { ComponentProps } from "react"
 
-interface AppContentProps {
-  children: ReactNode
-}
+import { cn } from "@/lib/utils"
 
-export function AppContent({ children }: AppContentProps) {
-  return <main className="flex-1 p-8">{children}</main>
+interface AppContentProps extends ComponentProps<"main"> {}
+
+export function AppContent({ children, className, ...props }: AppContentProps) {
+  return (
+    <main className={cn("flex-1 p-8", className)} {...props}>
+      {children}
+    </main>
+  )
 }
