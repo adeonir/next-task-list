@@ -7,13 +7,13 @@ import { CreateTaskForm } from "@/components/app/forms/create-task"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 
-export function CreateTaskSheet() {
+export function CreateTask() {
   const [open, setOpen] = useState(false)
 
   return (
     <Sheet onOpenChange={setOpen} open={open}>
       <SheetTrigger asChild>
-        <Button variant="outline">
+        <Button className="border-gray-300" variant="outline">
           <PlusIcon />
           Criar tarefa
         </Button>
