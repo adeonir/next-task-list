@@ -1,75 +1,150 @@
-import { Priority, Status } from "@prisma/client"
+"use client"
 
-import { PriorityBadge } from "@/components/app/priority-badge"
-import { StatusBadge } from "@/components/app/status-badge"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Priority, Status } from "@prisma/client"
+import { Loader2Icon } from "lucide-react"
+import { FormEvent, useActionState, useRef, useTransition } from "react"
+import { useForm } from "react-hook-form"
+
+import { createTaskAction } from "@/actions/create-task"
 import { Button } from "@/components/ui/button"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import { CreateTaskSchema, createTaskSchema } from "@/schemas/create-task"
 
-const statusOptions: { label: Status; value: string }[] = [
-  { label: "Todo", value: "todo" },
-  { label: "InProgress", value: "in_progress" },
-  { label: "Done", value: "done" },
+const statusOptions = [
+  { label: "A Fazer", value: "Todo" },
+  { label: "Em Andamento", value: "InProgress" },
+  { label: "Concluído", value: "Done" },
 ]
 
-const priorityOptions: { label: Priority; value: string }[] = [
-  { label: "Low", value: "low" },
-  { label: "Medium", value: "medium" },
-  { label: "High", value: "high" },
+const priorityOptions = [
+  { label: "Baixa", value: "Low" },
+  { label: "Média", value: "Medium" },
+  { label: "Alta", value: "High" },
 ]
+
+const defaultValues: CreateTaskSchema = {
+  title: "",
+  description: "",
+  status: "" as unknown as Status,
+  priority: "" as unknown as Priority,
+}
 
 export function CreateTaskForm() {
+  const formRef = useRef<HTMLFormElement>(null)
+
+  const [isPending, startTransition] = useTransition()
+  const [state, formAction] = useActionState(createTaskAction, {
+    message: "",
+  })
+
+  const form = useForm<CreateTaskSchema>({
+    resolver: zodResolver(createTaskSchema),
+    defaultValues: {
+      ...defaultValues,
+      ...(state?.fields ?? {}),
+    },
+  })
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    void form.handleSubmit(() => {
+      const formData = new FormData(formRef.current!)
+
+      startTransition(() => {
+        void formAction(formData)
+      })
+    })(event)
+  }
+
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-2">
-        <Label>Título</Label>
-        <Input placeholder="Título da tarefa" />
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <Label>Descrição</Label>
-        <Textarea placeholder="Descrição da tarefa" />
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <div className="flex flex-col gap-2">
-          <Label>Status</Label>
-          <Select>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Status" />
-            </SelectTrigger>
-            <SelectContent>
-              {statusOptions.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  <StatusBadge status={option.label} />
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+    <Form {...form}>
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit} ref={formRef}>
+        <FormField
+          control={form.control}
+          name="title"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Título</FormLabel>
+              <FormControl>
+                <Input placeholder="Título da tarefa" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Descrição</FormLabel>
+              <FormControl>
+                <Textarea placeholder="Descrição da tarefa" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="grid grid-cols-2 gap-4">
+          <FormField
+            control={form.control}
+            name="status"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Status</FormLabel>
+                <FormControl>
+                  <Select name="status" onValueChange={field.onChange} value={field.value}>
+                    <SelectTrigger aria-invalid={!!form.formState.errors.status} className="w-full">
+                      <SelectValue placeholder="Status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {statusOptions.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="priority"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Prioridade</FormLabel>
+                <FormControl>
+                  <Select name="priority" onValueChange={field.onChange} value={field.value}>
+                    <SelectTrigger aria-invalid={!!form.formState.errors.priority} className="w-full">
+                      <SelectValue placeholder="Prioridade" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {priorityOptions.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
 
-        <div className="flex flex-col gap-2">
-          <Label>Prioridade</Label>
-          <Select>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Prioridade" />
-            </SelectTrigger>
-            <SelectContent>
-              {priorityOptions.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  <PriorityBadge priority={option.label} />
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-
-      <Button className="mt-8" type="submit">
-        Criar
-      </Button>
-    </div>
+        <Button className="mt-8" type="submit">
+          {isPending ? <Loader2Icon className="size-5 animate-spin" /> : "Criar"}
+        </Button>
+      </form>
+    </Form>
   )
 }
