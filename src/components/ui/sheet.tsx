@@ -58,7 +58,7 @@ function SheetContent({
       <SheetPrimitive.Content
         className={cn(
           "fixed z-50 flex flex-col gap-4 bg-white px-6 py-4 shadow-lg transition ease-in-out data-[state=closed]:animate-out",
-          "data-[state=open]:animate-in data-[state=closed]:duration-300 data-[state=open]:duration-500 dark:bg-gray-950",
+          "data-[state=open]:animate-in data-[state=closed]:duration-300 data-[state=open]:duration-500",
           sideClass[side],
           className,
         )}
