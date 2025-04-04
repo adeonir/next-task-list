@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Priority, Status } from "@prisma/client"
 import { Loader2Icon } from "lucide-react"
-import { FormEvent, useActionState, useRef, useTransition } from "react"
+import { FormEvent, useActionState, useEffect, useRef, useTransition } from "react"
 import { useForm } from "react-hook-form"
 
 import { createTaskAction } from "@/actions/create-task"
@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useToast } from "@/components/ui/sonner"
 import { Textarea } from "@/components/ui/textarea"
 import { CreateTaskSchema, createTaskSchema } from "@/schemas/create-task"
 
@@ -35,6 +36,7 @@ const defaultValues: CreateTaskSchema = {
 
 export function CreateTaskForm() {
   const formRef = useRef<HTMLFormElement>(null)
+  const { toast } = useToast()
 
   const [isPending, startTransition] = useTransition()
   const [state, formAction] = useActionState(createTaskAction, {
@@ -60,6 +62,23 @@ export function CreateTaskForm() {
       })
     })(event)
   }
+
+  useEffect(() => {
+    if (state?.status === "success") {
+      form.reset({
+        ...defaultValues,
+        ...(state?.fields ?? {}),
+      })
+
+      toast.success(state.message)
+    }
+
+    if (state?.status === "error") {
+      toast.error(state.message, {
+        description: state.description,
+      })
+    }
+  }, [form, state, toast])
 
   return (
     <Form {...form}>
