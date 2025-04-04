@@ -34,7 +34,6 @@ function SelectTrigger({
         "focus-visible:ring-blue-500/20 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-red-500",
         "aria-invalid:ring-red-500/20 data-[size=default]:h-9 data-[size=sm]:h-8 data-[placeholder]:text-gray-500",
         "*:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2",
-        "dark:bg-gray-200/30 dark:aria-invalid:ring-red-500/40 dark:hover:bg-gray-200/50",
         "[&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-gray-500 [&_svg]:pointer-events-none [&_svg]:shrink-0",
         className,
       )}
