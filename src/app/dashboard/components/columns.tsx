@@ -30,19 +30,26 @@ export const columns: ColumnDef<Task>[] = [
     header: "Status",
     accessorKey: "status",
     cell: ({ row }) => <StatusBadge status={row.original.status} />,
+    size: 180,
+    maxSize: 180,
   },
   {
     header: "Priority",
     accessorKey: "priority",
     cell: ({ row }) => <PriorityBadge priority={row.original.priority} />,
+    size: 140,
+    maxSize: 140,
   },
   {
     header: "Favorite",
     accessorKey: "favorite",
+    size: 100,
+    maxSize: 100,
   },
   {
     header: "Actions",
     accessorKey: "actions",
-    cell: ({ row }) => <Button variant="outline">View</Button>,
+    size: 140,
+    maxSize: 140,
   },
 ]
