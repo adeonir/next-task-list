@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Priority, Status } from "@prisma/client"
 import { Loader2Icon } from "lucide-react"
-import { FormEvent, useActionState, useEffect, useRef, useTransition } from "react"
+import { FormEvent, useActionState, useEffect, useRef, useState, useTransition } from "react"
 import { useForm } from "react-hook-form"
 
 import { createTaskAction } from "@/actions/create-task"
@@ -34,10 +34,13 @@ const defaultValues: CreateTaskSchema = {
   priority: "" as unknown as Priority,
 }
 
-export function CreateTaskForm() {
-  const formRef = useRef<HTMLFormElement>(null)
-  const { toast } = useToast()
+interface CreateTaskFormProps {
+  onOpen: (open: boolean) => void
+}
 
+export function CreateTaskForm({ onOpen }: CreateTaskFormProps) {
+  const { toast } = useToast()
+  const formRef = useRef<HTMLFormElement>(null)
   const [isPending, startTransition] = useTransition()
   const [state, formAction] = useActionState(createTaskAction, {
     message: "",
@@ -71,6 +74,7 @@ export function CreateTaskForm() {
       })
 
       toast.success(state.message)
+      onOpen(false)
     }
 
     if (state?.status === "error") {
@@ -78,7 +82,7 @@ export function CreateTaskForm() {
         description: state.description,
       })
     }
-  }, [form, state, toast])
+  }, [form, state, toast, onOpen])
 
   return (
     <Form {...form}>
