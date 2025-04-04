@@ -55,7 +55,7 @@ importers:
         specifier: 6.5.0
         version: 6.5.0(prisma@6.5.0(typescript@5.8.2))(typescript@5.8.2)
       '@tailwindcss/postcss':
-        specifier: ^4
+        specifier: ^4.1.0
         version: 4.1.0
       '@types/node':
         specifier: ^22
@@ -72,11 +72,14 @@ importers:
       lefthook:
         specifier: 1.11.6
         version: 1.11.6
+      postcss:
+        specifier: 8.5.3
+        version: 8.5.3
       prisma:
         specifier: 6.5.0
         version: 6.5.0(typescript@5.8.2)
       tailwindcss:
-        specifier: ^4
+        specifier: ^4.1.0
         version: 4.1.0
       typescript:
         specifier: ^5
