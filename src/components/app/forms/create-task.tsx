@@ -40,11 +40,13 @@ interface CreateTaskFormProps {
 
 export function CreateTaskForm({ onOpen }: CreateTaskFormProps) {
   const { toast } = useToast()
-  const formRef = useRef<HTMLFormElement>(null)
+
   const [isPending, startTransition] = useTransition()
   const [state, formAction] = useActionState(createTaskAction, {
     message: "",
   })
+
+  const formRef = useRef<HTMLFormElement>(null)
 
   const form = useForm<CreateTaskSchema>({
     resolver: zodResolver(createTaskSchema),

@@ -3,9 +3,12 @@
 import { Status } from "@prisma/client"
 import { Priority } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
+import { CircleX, Copy, FilePenLine } from "lucide-react"
+
 import { PriorityBadge } from "@/components/app/priority-badge"
 import { StatusBadge } from "@/components/app/status-badge"
 import { Button } from "@/components/ui/button"
+import { ToggleFavorite } from "./toggle-favorite"
 
 export interface Task {
   id: string
@@ -45,11 +48,25 @@ export const columns: ColumnDef<Task>[] = [
     accessorKey: "favorite",
     size: 100,
     maxSize: 100,
+    cell: ({ row }) => <ToggleFavorite favorite={row.original.favorite} taskId={row.original.id} />,
   },
   {
     header: "Actions",
     accessorKey: "actions",
     size: 140,
     maxSize: 140,
+    cell: ({ row }) => (
+      <div className="flex items-center">
+        <Button variant="ghost">
+          <FilePenLine className="size-5 shrink-0" />
+        </Button>
+        <Button variant="ghost">
+          <CircleX className="size-5 shrink-0" />
+        </Button>
+        <Button variant="ghost">
+          <Copy className="size-5 shrink" />
+        </Button>
+      </div>
+    ),
   },
 ]
