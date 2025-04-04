@@ -11,13 +11,12 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        primary: "border-transparent bg-purple-500 text-purple-50 [a&]:hover:bg-purple-500/90",
-        secondary: "border-transparent bg-gray-200 text-gray-900 [a&]:hover:bg-gray-200/90",
-        success: "border-transparent bg-green-600 text-green-50 [a&]:hover:bg-green-600/90",
-        error: "border-transparent bg-red-500 text-white [a&]:hover:bg-red-500/90",
-        info: "border-transparent bg-blue-500 text-blue-50 [a&]:hover:bg-blue-500/90",
-        warning: "border-transparent bg-yellow-400 text-yellow-900 [a&]:hover:bg-yellow-400/90",
-        outline: "text-gray-950 [a&]:hover:bg-gray-100 [a&]:hover:text-gray-900",
+        primary: "border-transparent bg-purple-100 text-purple-950",
+        secondary: "border-transparent bg-gray-200 text-gray-950",
+        success: "border-transparent bg-green-100 text-green-950",
+        error: "border-transparent bg-red-100 text-red-950",
+        info: "border-transparent bg-blue-100 text-blue-950",
+        warning: "border-transparent bg-amber-100 text-amber-950",
       },
       shape: {
         rounded: "rounded-md",
