@@ -6,8 +6,13 @@ import { ComponentProps } from "react"
 
 import { cn } from "@/lib/utils"
 
-function Select({ ...props }: ComponentProps<typeof SelectPrimitive.Root>) {
-  return <SelectPrimitive.Root data-slot="select" {...props} />
+function Select({ name, value, ...props }: ComponentProps<typeof SelectPrimitive.Root> & { name?: string }) {
+  return (
+    <>
+      <SelectPrimitive.Root data-slot="select" value={value} {...props} />
+      {name && <input name={name} type="hidden" value={value || ""} />}
+    </>
+  )
 }
 
 function SelectGroup({ ...props }: ComponentProps<typeof SelectPrimitive.Group>) {
