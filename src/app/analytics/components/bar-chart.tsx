@@ -41,8 +41,8 @@ export function BarTasksChart({ data, className }: BarChartProps) {
   })
 
   return (
-    <div className="rounded-md border border-gray-300 p-4">
-      <ChartContainer className={cn("h-[calc(100vh-320px)] w-full", className)} config={chartConfig}>
+    <div>
+      <ChartContainer className={cn("h-[calc(100vh-480px)] w-full", className)} config={chartConfig}>
         <BarChart accessibilityLayer data={chartData}>
           <CartesianGrid vertical={false} />
           <XAxis axisLine={false} dataKey="date" tickLine={false} tickMargin={10} />
