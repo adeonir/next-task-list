@@ -9,6 +9,22 @@ export interface Analytics {
 }
 
 export async function getAnalytics() {
+  const totalTasks = await prisma.task.count()
+  const totalTasksDone = await prisma.task.count({
+    where: {
+      status: "Done",
+    },
+  })
+  const totalTasksInProgress = await prisma.task.count({
+    where: {
+      status: "InProgress",
+    },
+  })
+  const totalTasksTodo = await prisma.task.count({
+    where: {
+      status: "Todo",
+    },
+  })
   const tasksByDate = await prisma.task.groupBy({
     by: ["createdAt", "status"],
     _count: {
@@ -54,5 +70,13 @@ export async function getAnalytics() {
     {} as Record<string, Analytics>,
   )
 
-  return { data: Object.values(analytics) }
+  return {
+    data: {
+      analytics: Object.values(analytics),
+      totalTasks,
+      totalTasksDone,
+      totalTasksInProgress,
+      totalTasksTodo,
+    },
+  }
 }
