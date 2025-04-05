@@ -1,7 +1,6 @@
 "use client"
 
-import { Status } from "@prisma/client"
-import { Priority } from "@prisma/client"
+import { Priority, Status } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
 
 import { PriorityBadge } from "@/components/app/priority-badge"
@@ -54,6 +53,6 @@ export const columns: ColumnDef<Task>[] = [
     accessorKey: "actions",
     size: 140,
     maxSize: 140,
-    cell: ({ row }) => <TaskActions taskId={row.original.id} />,
+    cell: ({ row }) => <TaskActions task={row.original} />,
   },
 ]
