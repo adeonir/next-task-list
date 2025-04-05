@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "biome check --write",
-    "test": "vitest"
+    "test": "vitest",
+    "postinstall": "prisma generate && prisma migrate deploy"
   },
   "prisma": {
     "seed": "tsx prisma/seed/index.ts"
