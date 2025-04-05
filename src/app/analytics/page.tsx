@@ -34,7 +34,7 @@ export default async function Dashboard() {
       <AppContent className="space-y-8">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           {cardData.map((card) => (
-            <Card key={card.title}>
+            <Card className="gap-0 md:gap-4" key={card.title}>
               <CardHeader>
                 <CardTitle className="text-lg">{card.title}</CardTitle>
               </CardHeader>

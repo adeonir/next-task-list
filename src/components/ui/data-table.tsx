@@ -17,7 +17,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
   })
 
   return (
-    <Card className="p-0">
+    <Card className="max-w-full overflow-hidden p-0">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -27,9 +27,6 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                   <TableHead
                     className="first-of-type:rounded-tl-md first-of-type:pl-4 last-of-type:rounded-tr-md last-of-type:pr-2"
                     key={header.id}
-                    style={{
-                      width: header.getSize() === 150 ? "auto" : header.getSize(),
-                    }}
                   >
                     {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>

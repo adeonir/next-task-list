@@ -42,14 +42,14 @@ export function BarTasksChart({ data, className }: BarChartProps) {
 
   return (
     <div>
-      <ChartContainer className={cn("h-[calc(100vh-480px)] w-full", className)} config={chartConfig}>
+      <ChartContainer className={cn("min-h-[100px] w-full", className)} config={chartConfig}>
         <BarChart accessibilityLayer data={chartData}>
           <CartesianGrid vertical={false} />
           <XAxis axisLine={false} dataKey="date" tickLine={false} tickMargin={10} />
           <ChartTooltip content={<ChartTooltipContent />} cursor={{ fill: "#f3f4f6" }} />
           <ChartLegend content={<ChartLegendContent />} />
           {Object.keys(chartConfig).map((key) => (
-            <Bar dataKey={key} fill={`var(--color-${key})`} key={key} minPointSize={2} radius={4} />
+            <Bar dataKey={key} fill={`var(--color-${key})`} key={key} minPointSize={2} radius={3} />
           ))}
         </BarChart>
       </ChartContainer>

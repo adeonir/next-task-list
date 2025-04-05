@@ -20,8 +20,8 @@ export default function RootLayout({
 }>) {
   return (
     <html className={`${inter.className} antialiased`} lang="pt-BR">
-      <body className="flex min-h-screen bg-gray-200">
-        <div className="m-4 flex flex-1 flex-col rounded-lg bg-white shadow-lg">{children}</div>
+      <body className="flex min-h-screen overflow-x-hidden bg-gray-200">
+        <div className="m-4 flex flex-1 flex-col overflow-x-hidden rounded-lg bg-white shadow-lg">{children}</div>
         <Toaster />
       </body>
     </html>

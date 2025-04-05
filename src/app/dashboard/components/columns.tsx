@@ -19,40 +19,41 @@ export interface Task {
 
 export const columns: ColumnDef<Task>[] = [
   {
-    header: "Title",
+    header: "Título",
     accessorKey: "title",
     cell: ({ row }) => <p className="font-semibold">{row.original.title}</p>,
   },
   {
-    header: "Description",
+    header: () => <span className="hidden lg:block">Descrição</span>,
     accessorKey: "description",
+    cell: ({ row }) => <p className="hidden lg:block">{row.original.description}</p>,
   },
   {
-    header: "Status",
+    header: () => <span className="hidden sm:block">Status</span>,
     accessorKey: "status",
-    cell: ({ row }) => <StatusBadge status={row.original.status} />,
-    size: 180,
-    maxSize: 180,
+    cell: ({ row }) => (
+      <div className="hidden sm:block">
+        <StatusBadge status={row.original.status} />
+      </div>
+    ),
   },
   {
-    header: "Priority",
+    header: () => <span className="hidden md:block">Prioridade</span>,
     accessorKey: "priority",
-    cell: ({ row }) => <PriorityBadge priority={row.original.priority} />,
-    size: 140,
-    maxSize: 140,
+    cell: ({ row }) => (
+      <div className="hidden md:block">
+        <PriorityBadge priority={row.original.priority} />
+      </div>
+    ),
   },
   {
-    header: "Favorite",
+    header: "Favorito",
     accessorKey: "favorite",
-    size: 100,
-    maxSize: 100,
     cell: ({ row }) => <ToggleFavorite favorite={row.original.favorite} taskId={row.original.id} />,
   },
   {
-    header: "Actions",
+    header: "Ações",
     accessorKey: "actions",
-    size: 140,
-    maxSize: 140,
     cell: ({ row }) => <TaskActions task={row.original} />,
   },
 ]
