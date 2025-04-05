@@ -3,15 +3,15 @@
 import { PlusIcon } from "lucide-react"
 import { useState } from "react"
 
-import { CreateTaskForm } from "@/components/app/forms/create-task"
+import { TaskForm } from "@/components/app/task-form"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 
 export function CreateTask() {
-  const [open, setOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <Sheet onOpenChange={setOpen} open={open}>
+    <Sheet onOpenChange={setIsOpen} open={isOpen}>
       <SheetTrigger asChild>
         <Button className="border-gray-300" variant="outline">
           <PlusIcon />
@@ -23,7 +23,7 @@ export function CreateTask() {
           <SheetTitle>Criar tarefa</SheetTitle>
           <SheetDescription className="hidden">Formulário para criar uma nova tarefa.</SheetDescription>
         </SheetHeader>
-        <CreateTaskForm onOpen={setOpen} />
+        <TaskForm onOpen={setIsOpen} />
       </SheetContent>
     </Sheet>
   )
