@@ -1,19 +1,19 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Priority, Status } from "@prisma/client"
+import { Priority, Status, Task } from "@prisma/client"
 import { Loader2Icon } from "lucide-react"
 import { FormEvent, useActionState, useEffect, useRef, useState, useTransition } from "react"
 import { useForm } from "react-hook-form"
 
-import { createTaskAction } from "@/actions/create-task"
+import { upsertTaskAction } from "@/actions/upsert-task"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useToast } from "@/components/ui/sonner"
 import { Textarea } from "@/components/ui/textarea"
-import { CreateTaskSchema, createTaskSchema } from "@/schemas/create-task"
+import { TaskSchema, taskSchema } from "@/schemas/task"
 
 const statusOptions = [
   { label: "A Fazer", value: "Todo" },
@@ -27,31 +27,33 @@ const priorityOptions = [
   { label: "Alta", value: "High" },
 ]
 
-const defaultValues: CreateTaskSchema = {
+const defaultValues: TaskSchema = {
   title: "",
   description: "",
   status: "" as unknown as Status,
   priority: "" as unknown as Priority,
 }
 
-interface CreateTaskFormProps {
+interface TaskFormProps {
+  task?: Omit<Task, "createdAt" | "updatedAt">
   onOpen: (open: boolean) => void
 }
 
-export function CreateTaskForm({ onOpen }: CreateTaskFormProps) {
+export function TaskForm({ task, onOpen }: TaskFormProps) {
   const { toast } = useToast()
 
   const [isPending, startTransition] = useTransition()
-  const [state, formAction] = useActionState(createTaskAction, {
+  const [state, formAction] = useActionState(upsertTaskAction, {
     message: "",
   })
 
   const formRef = useRef<HTMLFormElement>(null)
 
-  const form = useForm<CreateTaskSchema>({
-    resolver: zodResolver(createTaskSchema),
+  const form = useForm<TaskSchema>({
+    resolver: zodResolver(taskSchema),
     defaultValues: {
       ...defaultValues,
+      ...(task ?? {}),
       ...(state?.fields ?? {}),
     },
   })
@@ -61,6 +63,10 @@ export function CreateTaskForm({ onOpen }: CreateTaskFormProps) {
 
     void form.handleSubmit(() => {
       const formData = new FormData(formRef.current!)
+
+      if (task) {
+        formData.append("taskId", task.id)
+      }
 
       startTransition(() => {
         void formAction(formData)
@@ -72,6 +78,7 @@ export function CreateTaskForm({ onOpen }: CreateTaskFormProps) {
     if (state?.status === "success") {
       form.reset({
         ...defaultValues,
+        ...(task ?? {}),
         ...(state?.fields ?? {}),
       })
 
@@ -84,7 +91,7 @@ export function CreateTaskForm({ onOpen }: CreateTaskFormProps) {
         description: state.description,
       })
     }
-  }, [form, state, toast, onOpen])
+  }, [form, state, toast, onOpen, task])
 
   return (
     <Form {...form}>
