@@ -174,7 +174,7 @@ export function TaskForm({ task, onOpen }: TaskFormProps) {
         </div>
 
         <Button className="mt-8" type="submit">
-          {isPending ? <Loader2Icon className="size-5 animate-spin" /> : "Criar"}
+          {isPending ? <Loader2Icon className="size-5 animate-spin" /> : task?.id ? "Atualizar" : "Criar"}
         </Button>
       </form>
     </Form>
